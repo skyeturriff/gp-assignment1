@@ -2,6 +2,14 @@
 using UnityEngine.UI;
 using System.Collections;
 
+/*
+ * This class first gets the size of the viewport of the camera. This information is
+ * used to repawn the fruit at random locations within the screen bounds after it has
+ * been collected. When a fruit is collected, the user's score is incremented by one,
+ * a new body unit is spawned onto the snake at a predefined offset from the head,
+ * taking into consideration the distance to the last "tail" unit. The fruit is then
+ * moved to a new location.
+ */
 public class CollectFruit : MonoBehaviour 
 {
     public Camera sceneCamera;      // The camera we will querying for screen size info
@@ -9,7 +17,7 @@ public class CollectFruit : MonoBehaviour
     public Text scoreText;          // Displays current score to user
     int score;                      // Holds the user's current score
     public GameObject snakePrefab;  // Object to add onto snake body
-    int offset;             // Distance from head to first snake unit
+    int offset;                     // Distance from head to first snake unit
 
     // Initialize screen size information
     void Start()
@@ -47,10 +55,11 @@ public class CollectFruit : MonoBehaviour
 
     void SpawnSnakeUnit()
     {
+        // Spawn a new unit and make the snake head its parent
         GameObject spawnedSnakeUnit = GameObject.Instantiate(snakePrefab);
         spawnedSnakeUnit.transform.parent = transform;
         
-        // Spawn new unit at a distance of offset * the number of current units
+        // Spawn new unit at a distance from the head of offset * the number of current units
         spawnedSnakeUnit.transform.localPosition = new Vector3(offset*score, 0, 0);
     }
 }
