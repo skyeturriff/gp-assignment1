@@ -1,13 +1,21 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class MoveSnake : MonoBehaviour 
 {
-    // The speed at which the snake will move
-    public float movementSpeed = 0.5f;
+    public float movementSpeed = 0.5f;  // The speed at which the snake will move
+    Vector3 movement;                   // The direction of movement, depending on last arrow key pressed
 
-    // The direction of movement, depending on last arrow key pressed
-    Vector3 movement;
+    int lifeCount;
+    public Image life1;
+    public Image life2;
+    public Image life3;
+
+    void Start()
+    {
+        lifeCount = 3;  // Snake begins with three lives
+    }
 	
 	void Update () 
     {
@@ -38,4 +46,13 @@ public class MoveSnake : MonoBehaviour
         // Update position of game object
         transform.position += movement * movementSpeed * Time.deltaTime;
 	}
+
+    // Handle snake collision with wall
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("Wall"))
+        {
+            gameObject.SetActive(false);
+        }
+     }
 }
